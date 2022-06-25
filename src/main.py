@@ -10,10 +10,11 @@ def main():
         ret, frame = cap.read()
 
         handDetector.findHands(frame)
+        print(handDetector.find_pose(frame))
 
         cv2.imshow('camera' , frame)
 
-        key =cv2.waitKey(5)
+        key =cv2.waitKey(1)
         if key == 113:
             break
 

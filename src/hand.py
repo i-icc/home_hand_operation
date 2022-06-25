@@ -1,6 +1,11 @@
 import cv2
 import mediapipe as mp
 
+
+ANGLES = [(4, 3, 2), (3, 2, 1), (8, 7, 6), (7, 6, 5), (6, 5, 0), (12, 11, 10), (11, 10, 9),
+          (10, 9, 0), (16, 15, 14), (15, 14, 13), (14, 13, 0), (20, 19, 18), (19, 18, 17), (18, 17, 16)]
+
+
 class HandDetector():
     # def __init__(self, mode=False, maxHands=2, detectionCon=0.5, trackCon=0.5):
     def __init__(self, mode=False, maxHands=1, modelComplexity=1, detectionCon=0.5, trackCon=0.5):
@@ -53,7 +58,34 @@ class HandDetector():
             zmin, zmax = min(zList), max(zList)
             bbox = xmin, ymin, zmin, xmax, ymax, zmax
             if draw:
-                cv2.rectangle(img, (bbox[0], bbox[1]), (bbox[3], bbox[4]), 
-                                (0, 255, 0), thickness = 2)
+                cv2.rectangle(img, (bbox[0], bbox[1]), (bbox[3], bbox[4]),
+                              (0, 255, 0), thickness=2)
 
         return lmList, bbox
+
+    def find_pose(self, img, handNo=0):
+        position_list = dict()
+        hand_pose = -1
+        if self.results.multi_hand_landmarks:
+            myHand = self.results.multi_hand_landmarks[handNo]
+            for id, lm in enumerate(myHand.landmark):
+                h, w, c = img.shape
+                cx, cy, cz = int(lm.x * w), int(lm.y * h), int(lm.z * w)
+                position_list[id] = [cx, cy, cz]
+
+            angles = []
+            for angle in ANGLES:
+                angles.append(get_angle)
+
+        return hand_pose, position_list
+
+
+def get_distance(point1, point2):
+    x = (point1[0] - point2[0])**2
+    y = (point1[1] - point2[1])**2
+    z = (point1[2] - point2[2])**2
+    return (x + y + z)**(1/2)
+
+
+def get_angle(point1, point2, point3):
+    pass
