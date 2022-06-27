@@ -10,7 +10,8 @@ def main():
         ret, frame = cap.read()
 
         handDetector.findHands(frame)
-        print(handDetector.find_pose(frame))
+        # handDetector.findPosition(frame)
+        handDetector.find_pose(frame)
 
         cv2.imshow('camera' , frame)
 

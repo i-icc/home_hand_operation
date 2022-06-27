@@ -1,5 +1,7 @@
 import cv2
 import mediapipe as mp
+import math
+import numpy as np
 
 
 ANGLES = [(4, 3, 2), (3, 2, 1), (8, 7, 6), (7, 6, 5), (6, 5, 0), (12, 11, 10), (11, 10, 9),
@@ -69,23 +71,27 @@ class HandDetector():
         if self.results.multi_hand_landmarks:
             myHand = self.results.multi_hand_landmarks[handNo]
             for id, lm in enumerate(myHand.landmark):
-                h, w, c = img.shape
-                cx, cy, cz = int(lm.x * w), int(lm.y * h), int(lm.z * w)
-                position_list[id] = [cx, cy, cz]
+                position_list[id] = np.array([lm.x, lm.y, lm.z])
 
             angles = []
             for angle in ANGLES:
-                angles.append(get_angle)
-
+                angles.append(get_angle(
+                    position_list[angle[0]], position_list[angle[1]], position_list[angle[2]]))
+            print(angles)
+            
         return hand_pose, position_list
 
 
-def get_distance(point1, point2):
-    x = (point1[0] - point2[0])**2
-    y = (point1[1] - point2[1])**2
-    z = (point1[2] - point2[2])**2
-    return (x + y + z)**(1/2)
-
-
 def get_angle(point1, point2, point3):
-    pass
+    vec_a = point1 - point2
+    vec_c = point3 - point2
+
+    length_vec_a = np.linalg.norm(vec_a)
+    length_vec_c = np.linalg.norm(vec_c)
+    inner_product = np.inner(vec_a, vec_c)
+    cos = inner_product / (length_vec_a * length_vec_c)
+
+    rad = np.arccos(cos)
+    degree = np.rad2deg(rad)
+
+    return degree
