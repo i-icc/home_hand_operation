@@ -77,9 +77,9 @@ class HandDetector():
             for angle in ANGLES:
                 angles.append(get_angle(
                     position_list[angle[0]], position_list[angle[1]], position_list[angle[2]]))
-            print(angles)
+            print(",".join(list(map(str,angles))))
             
-        return hand_pose, position_list
+        return hand_pose
 
 
 def get_angle(point1, point2, point3):

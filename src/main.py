@@ -15,7 +15,7 @@ def main():
 
         cv2.imshow('camera' , frame)
 
-        key =cv2.waitKey(1)
+        key =cv2.waitKey(10)
         if key == 113:
             break
 
