@@ -22,9 +22,9 @@ def main():
     knn.fit(X_train, y_train)
     
     corect = 0
-    for i in range(len(X_test)):
-        pose = knn.predict(X_test[i])
-        if pose[0] == y_test[i]:
+    poses = knn.predict(X_test)
+    for i in range(len(poses)):
+        if poses[i] == y_test[i]:
             corect += 1
     s = corect / len(y_test)
     print(f"正答率 : {s}%")
