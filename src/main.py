@@ -2,7 +2,7 @@ import cv2
 from hand import HandDetector
 
 def main():
-    cap = cv2.VideoCapture(1)
+    cap = cv2.VideoCapture(0)
 
     handDetector = HandDetector()
 
@@ -11,9 +11,9 @@ def main():
 
         handDetector.findHands(frame)
         # handDetector.findPosition(frame)
-        handDetector.find_pose(frame)
+        print(handDetector.find_pose(frame))
 
-        cv2.imshow('camera' , frame)
+        # cv2.imshow('camera' , frame)
 
         key =cv2.waitKey(10)
         if key == 113:
