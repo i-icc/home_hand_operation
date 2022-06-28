@@ -2,7 +2,11 @@ import cv2
 import mediapipe as mp
 import math
 import numpy as np
+import pickle
 
+
+with open('./models/hand_model.pickle', mode='rb') as fp:
+    knn = pickle.load(fp)
 
 ANGLES = [(4, 3, 2), (3, 2, 1), (8, 7, 6), (7, 6, 5), (6, 5, 0), (12, 11, 10), (11, 10, 9),
           (10, 9, 0), (16, 15, 14), (15, 14, 13), (14, 13, 0), (20, 19, 18), (19, 18, 17), (18, 17, 16)]
@@ -45,7 +49,7 @@ class HandDetector():
             for angle in ANGLES:
                 angles.append(get_angle(
                     position_list[angle[0]], position_list[angle[1]], position_list[angle[2]]))
-            print(",".join(list(map(str,angles))))
+            hand_pose = knn.predict(np.array([angles]))[0]
             
         return hand_pose
 
