@@ -6,12 +6,15 @@ import pickle
 def main():
     degrees = []
     labels = []
-    for i in range(7):
-        with open(f"./hand_data/{i}.txt", "r") as f:
-            lines = f.readlines()
-            for line in lines:
-                degrees.append(list(map(float, line.split(","))))
-                labels.append(i)
+    for i in range(13):
+        try:
+            with open(f"./hand_data/{i}.txt", "r") as f:
+                lines = f.readlines()
+                for line in lines:
+                    degrees.append(list(map(float, line.split(","))))
+                    labels.append(i)
+        except:
+            print(f"not found {i}.txt")
 
     degrees = np.array(degrees)
     labels = np.array(labels)

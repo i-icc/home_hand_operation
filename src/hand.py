@@ -1,6 +1,5 @@
 import cv2
 import mediapipe as mp
-import math
 import numpy as np
 import pickle
 
@@ -50,6 +49,7 @@ class HandDetector():
                 angles.append(get_angle(
                     position_list[angle[0]], position_list[angle[1]], position_list[angle[2]]))
             hand_pose = knn.predict(np.array([angles]))[0]
+            # print(",".join(list(map(str,angles))))
             
         return hand_pose
 
