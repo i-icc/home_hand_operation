@@ -18,7 +18,15 @@ def main():
         ret, frame = cap.read()
 
         handDetector.findHands(frame, args.draw)
-        print(handDetector.find_pose(frame))
+        pose = handDetector.find_pose(frame)
+        if pose == -1:
+            print("None")
+        elif pose == 12:
+            print("Good")
+        elif pose == 11:
+            print("Fox")
+        else:
+            print(pose)
 
         # cv2.imshow('camera' , frame)
 
