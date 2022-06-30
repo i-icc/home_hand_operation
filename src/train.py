@@ -6,7 +6,7 @@ import pickle
 def main():
     degrees = []
     labels = []
-    for i in range(13):
+    for i in range(12):
         try:
             with open(f"./hand_data/{i}.txt", "r") as f:
                 lines = f.readlines()
