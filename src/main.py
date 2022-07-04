@@ -1,6 +1,7 @@
 import cv2
 from hand import HandDetector
 import argparse
+from command import Cmd
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-d', '--draw', action="store_true",
@@ -10,6 +11,7 @@ parser.add_argument('-cam', '--camera', type=int,
 args = parser.parse_args()
 
 def main():
+    cmd = Cmd()
     cap = cv2.VideoCapture(int(args.camera))
 
     handDetector = HandDetector()
@@ -19,10 +21,10 @@ def main():
 
         handDetector.findHands(frame, args.draw)
         pose = handDetector.find_pose(frame)
+        cmd.put_pose(pose)
+        print(cmd.get_cmd())
         if pose == -1:
             print("None")
-        elif pose == 12:
-            print("Good")
         elif pose == 11:
             print("Fox")
         else:

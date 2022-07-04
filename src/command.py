@@ -9,10 +9,10 @@ class Cmd:
             if len(self.cmd) == 0:
                 self.cmd.append(pose)
                 return
-            elif len(self.cmd) == 3:
-                self.cmd.pop(0)
             if self.cmd[-1] != pose:
                 self.cmd.append(pose)
+            if len(self.cmd) > 3:
+                self.cmd.pop(0)
                 
     def get_cmd(self):
         return self.cmd
