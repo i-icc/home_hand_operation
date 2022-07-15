@@ -15,13 +15,16 @@ def main():
     cap = cv2.VideoCapture(int(args.camera))
 
     handDetector = HandDetector()
+    pre_pose = -1
 
     while True:
         ret, frame = cap.read()
 
         handDetector.findHands(frame, args.draw)
         pose = handDetector.find_pose(frame)
-        cmd.put_pose(pose)
+        if pose == pre_pose:
+            cmd.put_pose(pose)
+        pre_pose = pose
         print(cmd.get_cmd())
         if pose == -1:
             print("None")
